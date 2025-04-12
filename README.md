@@ -1,57 +1,46 @@
-# Summary
-An inventory management web-app using Java and the Spring MVC framework with CRUD functionality. Although this web-app implements session control, the database does not persist and reverts back to the original state of pre-loaded inventory when the server is restarted. This project is a Maven configured project built in the Spring Tool Suite w/ SpringMVC dependencies served via Apache Tomcat 8.
+# Inventory Manager - Spring MVC CRUD Application
 
-This web-app is my first attempt at using SpringMVC. I first wrote JUnit tests but ran into an odd problem where the IDE didn't detect any test cases which I'll attempt to resolve before zipping into .war and deploying to AWS. I then proceeded to fill out methods that resulted in output via Java Server Pages with html/css/bootstrap. I provided the user the ability to manipulate data in many ways but also attempted to engineer limits to prevent misuse of the app. By and large, the web-app is mobile friendly with a toggling hamburger menu and responsive font sizes and bootstrap table, the data table needs a little work to be completely mobile ready, but this would serve as a good template for a mobile warehouse inventory management app.
+This project is a simple Spring MVC-based inventory management system with CRUD functionality.
 
-(Side note: JUnit tests are somewhat working but require a lot of commenting out in substitute for the mockDAO lines)
+---
 
-<p align="center">
-<img src="WebContent/images/screen1.png" height="245">
-<img src="WebContent/images/screen2.png" height="245"></p>
-<p align="center">
-<img src="WebContent/images/screen3.png" height="245">
-<img src="WebContent/images/screen4.png" height="245"></p>
-<p align="center">
-<img src="WebContent/images/screen5.png" height="245">
-<img src="WebContent/images/screen6.png" height="245"></p>
+## 📦 Prerequisites
 
-## In This Document
-1. [How to Execute](#how-to-execute)
-2. [Class Structure Overview](#class-structure-overview)
+Make sure you have the following installed:
 
-## How to Execute
-- The web-app is hosted on my AWS server: <a href="http://www.chiangs.ninja:8080/InventoryMGRSpringMVCCRUD/">**here**</a>
-- Download the entire program as a .war file <a href="InventoryMGRSpringMVCCRUD.war">**here**</a>
+- Java (JDK 8 or later)
+- Maven
+- Apache Tomcat (version 8 or compatible)
+- Git (optional, for cloning)
 
-## Instructions
-1. User arrives on landing page.
-2. User menu:
-    - View All Products
-    - View Details of a Product
-    - Edit Product
-    - Add New Product
-    - Delete Product
-3. Each product manipulation option can also be executed directly from the inventory overview.
+---
 
-## Class Structure Overview
-- The **ProductIMSController** class is the controller and interacts with the **ProductDAOImpl** class which implements methods declared in the **ProductDAO** interface. The product and list objects are constructed using information from the **Product** class and accompanying .csv file pre-loaded with inventory information.
-- The **ProductIMSController** provides information back through **.jsp** files for the user to view and manipulate.
+## 🚀 Steps to Build and Deploy
 
-<p align="center">
-<img src="WebContent/images/chart.png" height="350">
-</p>
+Open your terminal and run the following commands:
 
-## Code Examples
-**example of edit product controller code with form validation logic**
-```@RequestMapping(path = "EditProductData.do", method = RequestMethod.POST)
-	public ModelAndView editByID(@Valid Product product, Errors errors) {
-		ModelAndView mv = new ModelAndView();
-		if (errors.getErrorCount() != 0 ) {
-			mv.setViewName("editProduct");
-			return mv;
-		} else {
-			mv.addObject("inventory", productService.editProduct(product));
-			mv.setViewName("viewInventory");
-			return mv;			
-		}
-	}
+```bash
+# 1. Navigate to the project directory
+cd /mnt/e/Downloads/InventoryMGRSpringMVCCRUD
+
+# 2. Build the project using Maven
+mvn clean package
+
+# 3. Copy the WAR file to the Tomcat webapps directory
+sudo cp target/InventoryMGRSpringMVCCRUD-0.0.1-SNAPSHOT.war /opt/tomcat8/webapps/
+
+# 4. Stop the Tomcat server (if running)
+sudo /opt/tomcat8/bin/shutdown.sh
+
+# 5. Navigate to the Tomcat bin directory
+cd /opt/tomcat8/bin
+
+# 6. Start the Tomcat server
+sudo ./startup.sh
+
+Once Deployed , you can access the application in your browser : http://localhost:8080/InventoryMGRSpringMVCCRUD-0.0.1-SNAPSHOT/
+
+🛠 Troubleshooting
+Make sure Tomcat has permission to access your WAR file.
+
+Check logs in /opt/tomcat8/logs if the app doesn't load.
